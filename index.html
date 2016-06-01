@@ -54,7 +54,7 @@
     totalCount ++;
     //处理bonus
     for(var i = 0; i < bandits.length; i ++){
-      bandits[i].bonus = Math.sqrt(2 * Math.log(totalCount)/bandits[i].count);
+      bandits[i].bonus = Math.sqrt(2 * Math.log(totalCount)/Math.log(10)/bandits[i].count);
     }
     console.log(JSON.stringify(bandits))
   };
