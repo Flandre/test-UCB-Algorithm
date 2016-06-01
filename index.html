@@ -7,51 +7,42 @@
 </head>
 <body>
 <script>
-  //输入数据
-  var bandits = [0.35, 0.5, 0.65];
-  //期望数组
-  var desiredArr = [];
-  for(var i = 0; i < bandits.length; i++){
-    desiredArr.push(1 / bandits.length)
-  }
-  //初始化选择数组
-  var armCount = [];
-  for(var i = 0; i < bandits.length; i++){
-    armCount.push(1)
-  }
-
-  //console.log(desiredArr)
+  /*Test UCB1 algorithm*/
+  //输入数据,chance值为不可见
+  var bandits = [
+    {
+      "name": "A",
+      "chance": 0.35,
+      "count": 0,
+      "value": 0.5
+    },
+    {
+      "name": "B",
+      "chance": 0.5,
+      "count": 0,
+      "value": 0.5
+    },
+    {
+      "name": "C",
+      "chance": 0.65,
+      "count": 0,
+      "value": 0.5
+    }
+  ];
 
   //进行获取
-  document.getElementById('btn').onclick = function(){
-    console.log('---比对期望---');
-    var max = maxDes(desiredArr);
-    //选择目标
-    for(var i = 0; i < desiredArr.length; i ++){
-      if(max == desiredArr[i]){
-        armCount[i] += 1;
-        break;
-      }
-    }
-    console.log('---选择目标---');
-    console.log(armCount);
+  document.getElementById('btn').onclick = function () {
 
-    //调整收益率
-    for(var i = 0; i < bandits.length; i++) {
-      desiredArr[i] += Math.sqrt(2 * Math.log(armCount[i]) / eval(armCount.join('+')))
-    }
-    console.log('---调整收益率---');
-    console.log(desiredArr);
 
   };
 
 
   //取得期望数组中最大值
-  function maxDes(arr){
-    return eval('Math.max(' + arr.join(',')+ ')')
+  function maxDes(arr) {
+    return eval('Math.max(' + arr.join(',') + ')')
   }
   //选择数据
-  function check(num){
+  function check(num) {
     return bandits[num] > Math.random;
   }
 </script>
