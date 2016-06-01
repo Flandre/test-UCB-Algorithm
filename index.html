@@ -14,36 +14,79 @@
       "name": "A",
       "chance": 0.35,
       "count": 0,
-      "value": 0.5
+      "lottery": 0,
+      "value": 0.5,
+      "bonus": 0
     },
     {
       "name": "B",
       "chance": 0.5,
       "count": 0,
-      "value": 0.5
+      "lottery": 0,
+      "value": 0.5,
+      "bonus": 0
     },
     {
       "name": "C",
       "chance": 0.65,
       "count": 0,
-      "value": 0.5
+      "lottery": 0,
+      "value": 0.5,
+      "bonus": 0
     }
   ];
 
+  //设置计数
+  var totalCount = 0;
+
   //进行获取
   document.getElementById('btn').onclick = function () {
-
-
+    var numSave = UCBCheck();
+    console.log('---计数增加---');
+    bandits[numSave].count += 1;
+    //判断选中/未选中
+    if(checkNum(numSave)){
+      bandits[numSave].lottery += 1;
+    }
+    //处理函数本身value值[value = oldValue * (count-1)/count + newValue * 1/count]
+    bandits[numSave].value = bandits[numSave].value * bandits[numSave].count/(bandits[numSave].count + 1) + bandits[numSave].lottery / bandits[numSave].count / (bandits[numSave].count + 1);
+    //设置总计数
+    totalCount ++;
+    //处理bonus
+    for(var i = 0; i < bandits.length; i ++){
+      bandits[i].bonus = Math.sqrt(2 * Math.log(totalCount)/bandits[i].count);
+    }
+    console.log(JSON.stringify(bandits))
   };
 
+  //选择数字
+  function UCBCheck(){
+    //检测未选过的数字
+    var checkNum;
+    for(var i = 0; i < bandits.length; i ++){
+      if(bandits[i].count == 0){
+        checkNum = i;
+        break;
+      }
+    }
+    if(!checkNum){
+      checkNum = 0;
+      for(var i = 0; i < bandits.length; i ++){
+        if((bandits[i].value + bandits[i].bonus) > (bandits[checkNum].value + bandits[checkNum].bonus)){
+          checkNum = i;
+        }
+      }
+    }
+    return checkNum;
+  }
 
   //取得期望数组中最大值
   function maxDes(arr) {
     return eval('Math.max(' + arr.join(',') + ')')
   }
   //选择数据
-  function check(num) {
-    return bandits[num] > Math.random;
+  function checkNum(num) {
+    return bandits[num].chance > Math.random();
   }
 </script>
 </body>
