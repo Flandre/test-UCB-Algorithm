@@ -56,7 +56,15 @@
     for(var i = 0; i < bandits.length; i ++){
       bandits[i].bonus = Math.sqrt(2 * Math.log(totalCount)/Math.log(10)/bandits[i].count);
     }
-    console.log(JSON.stringify(bandits))
+    console.log(JSON.stringify(bandits));
+    //输出总计中奖率
+    console.log('---中奖率---');
+    var totalLottery = 0;
+    for(var i = 0; i < bandits.length; i ++){
+      totalLottery += bandits[i].lottery;
+    }
+    console.log(totalLottery/totalCount)
+
   };
 
   //选择数字
